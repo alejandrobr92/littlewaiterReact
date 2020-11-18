@@ -2,7 +2,6 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
@@ -10,58 +9,79 @@ import IconButton from '@material-ui/core/IconButton';
 import { green } from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import Title from '../title';
+import React, { Fragment, useState } from 'react';
+import UseTable from '../usetable'
+import Button from '@material-ui/core/Button';
+import { Paper, Toolbar } from '@material-ui/core';
+import Popup from "../popup"
+import UserForm from '../pages';
 
-import React, { Fragment } from 'react';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-    return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-    createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-    createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-    createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-    createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-    createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
-
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
-    seeMore: {
-        marginTop: theme.spacing(5),
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
     },
+    pageContent: {
+        margin: theme.spacing(5),
+        padding: theme.spacing(3)
+    },
+    newButton:{
+        position:"absolute",
+        right: "10px"
+    }
 }));
+
+const headCells = [
+    { id: 'fullName', labe: 'E TbContainername' },
+    { id: 'email', labe: 'Email Address' },
+    { id: 'mobile', labe: 'Mobil Number' },
+    { id: 'department', labe: 'Department' },
+]
 function Page(props) {
     const classes = useStyles();
+    const [openPopup, setOpenPopup]=useState(false)
+    const [records, setRecords] = useState()
+    const { TbContainer, TbHead } = UseTable(records, headCells);
     return (
         <React.Fragment>
-            <Title title='Recent Orders' />
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Ship To</TableCell>
-                        <TableCell>Payment Method</TableCell>
-                        <TableCell align="right">Sale Amount</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>{row.date}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.shipTo}</TableCell>
-                            <TableCell>{row.paymentMethod}</TableCell>
-                            <TableCell align="right">{row.amount}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <Paper className={classes.pageContent}>
+                <Toolbar>
+                    <form className={classes.root} noValidate autoComplete="off">
+                        <TextField id="standard-basic" label="buscar" />
+                    </form>
+                    <Button 
+                    className={classes.newButton}
+                    variant="contained"
+                    onClick={()=>setOpenPopup(true)}
+                    >+</Button>
+                </Toolbar>
+                <TbContainer>
+                    <TableHead />
+                    <TableBody>
+                        {/* {
+                    array.map(item=>
+                        (<TableRow key={item.id}>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell>{item.name}</TableCell>
+                        </TableRow>)
+                        )
+                    
+                    
+                    } */}
+                    </TableBody>
+                </TbContainer>
+            </Paper>
+            <Popup
+            title="Agregar"
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+            >
+                <UserForm/>
+            </Popup>
         </React.Fragment>
     )
 }

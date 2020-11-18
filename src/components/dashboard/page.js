@@ -11,18 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItems from '../listitems';
 import Orders from '../orders';
-import { green } from '@material-ui/core/colors';
-import Icon from '@material-ui/core/Icon';
-import TextField from '@material-ui/core/TextField';
-
+import UseTable from '../usetable'
+import UserForm from '../pages'
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -116,6 +112,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 function Page(props) {
+    const {TbContainer}=UseTable()
+    const { onSelect }= props
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -125,7 +123,7 @@ function Page(props) {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    return (
+    return ( 
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -165,34 +163,15 @@ function Page(props) {
                 </div>
                 <Divider />
                 <List>
-                    <ListItems />
+                    <ListItems onClick={()=>onSelect()}/>
                 </List>
                 <Divider />
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={2}>
-                        {/* Recent Orders */}
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <div >
-                                    <form noValidate autoComplete="off">
-                                        <TextField id="outlined-basic" label="Buscar" variant="outlined" />
-                                    </form>
-                                </div>
-                                <IconButton color="secondary" aria-label="add an alarm">
-                                    <Icon style={{ color: green[500], fontSize: 50 }}>add_circle</Icon>
-                                </IconButton>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <Orders />
-                            </Paper>
-                        </Grid>
-                    </Grid>
-
+                    <Orders/>
+                    
                     <Box pt={4}>
                         <Copyright />
                     </Box>
