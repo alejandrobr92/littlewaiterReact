@@ -7,7 +7,7 @@
 // results,
 // suggestions,
 // currentItem
-
+  
 // })
 // const globalState = localStorage.getItem('GLOBAL_STATE');
 // const initialState = globalState ? JSON.parse(globalState) : undefined;
