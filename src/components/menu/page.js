@@ -5,16 +5,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import { green } from '@material-ui/core/colors';
-import Icon from '@material-ui/core/Icon';
-import Title from '../title';
 import React, { Fragment, useState } from 'react';
 import UseTable from '../usetable'
 import Button from '@material-ui/core/Button';
 import { Paper, Toolbar } from '@material-ui/core';
 import Popup from "../popup"
 import UserForm from '../pages';
+import Controls from '../controls/controls';
 
 
 
@@ -29,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(5),
         padding: theme.spacing(3)
     },
-    newButton:{
-        position:"absolute",
+    newButton: {
+        position: "absolute",
         right: "10px"
     }
 }));
@@ -43,7 +40,7 @@ const headCells = [
 ]
 function Page(props) {
     const classes = useStyles();
-    const [openPopup, setOpenPopup]=useState(false)
+    const [openPopup, setOpenPopup] = useState(false)
     const [records, setRecords] = useState()
     const { TbContainer, TbHead } = UseTable(records, headCells);
     return (
@@ -52,12 +49,15 @@ function Page(props) {
                 <Toolbar>
                     <form className={classes.root} noValidate autoComplete="off">
                         <TextField id="standard-basic" label="buscar" />
+
                     </form>
-                    <Button 
-                    className={classes.newButton}
-                    variant="contained"
-                    onClick={()=>setOpenPopup(true)}
-                    >+</Button>
+                    <div>
+                        <Button
+                            className={classes.newButton}
+                            variant="contained"
+                            onClick={() => setOpenPopup(true)}
+                        >+</Button>
+                    </div>
                 </Toolbar>
                 <TbContainer>
                     <TableHead />
@@ -76,11 +76,11 @@ function Page(props) {
                 </TbContainer>
             </Paper>
             <Popup
-            title="Agregar"
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
+                title="Agregar"
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
             >
-                <UserForm/>
+                <UserForm />
             </Popup>
         </React.Fragment>
     )

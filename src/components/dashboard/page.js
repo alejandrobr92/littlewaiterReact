@@ -16,9 +16,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItems from '../listitems';
-import Orders from '../orders';
+import Menu from '../menu';
 import UseTable from '../usetable'
-import UserForm from '../pages'
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -112,7 +111,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 function Page(props) {
-    const {TbContainer}=UseTable()
     const { onSelect }= props
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -170,8 +168,7 @@ function Page(props) {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    <Orders/>
-                    
+                    <Menu/>
                     <Box pt={4}>
                         <Copyright />
                     </Box>

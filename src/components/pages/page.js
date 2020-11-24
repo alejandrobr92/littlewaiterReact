@@ -1,8 +1,8 @@
 
 import React from 'react'
-import { Grid, TextField, Button } from '@material-ui/core';
+import { Grid, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Form, UseForm } from '../useForm';
-
+// import * as dataServices from '../../data/dataService'
 
 const initialFValues = {
     id: 0,
@@ -18,16 +18,18 @@ function Page(props) {
         setErrors({
             ...temp
         })
-        return Object.values(temp).every(x => x =="")
-   
+        return Object.values(temp).every(x => x == "")
+
     }
     const { values, setValues, errors, setErrors, handleInputChange } = UseForm(initialFValues);
+    // const data=dataServices.getDataCollection();
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(validate())
-        window.alert('testing...')
+        if (validate())
+            window.alert('testing...')
     }
+
     return (
         <Form onSubmit={handleSubmit}>
             <Grid container>
@@ -43,6 +45,23 @@ function Page(props) {
                         helperText="some validation error."
 
                     />
+                    <FormControl
+                        variant="outlined"
+                    >
+                        <InputLabel>tittle</InputLabel>
+                        <Select
+                            label="label"
+                            name="name"
+                            value="value"
+                        >
+                            <MenuItem value="">None</MenuItem>
+                            {
+                                
+                                // this.options.map(item => (<MenuItem key={item.id} value={item.id}>{item.tittle}</MenuItem>))
+                            }
+                        </Select>
+                    </FormControl>
+
                     <div>
                         <Button
                             type="submit"
