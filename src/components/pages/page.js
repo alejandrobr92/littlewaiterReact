@@ -2,15 +2,21 @@
 import React from 'react'
 import { Grid, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Form, UseForm } from '../useForm';
-// import * as dataServices from '../../data/dataService'
+import * as dataService from '../../data/dataService'
 
 const initialFValues = {
     id: 0,
-    name: '',
+    title: '',
+    nombre: '',
     email: '',
-
+    categoryId: '',
+    precio: '',
+    descripcion: '',
+    categorias:'',
+    img: 'http://weneedfun.com/wp-content/uploads/2015/10/Delicious-Food-Photos-12.jpg'
 }
 function Page(props) {
+    const { addOrEdit } = props
 
     const validate = () => {
         let temp = {};
@@ -18,15 +24,28 @@ function Page(props) {
         setErrors({
             ...temp
         })
-        return Object.values(temp).every(x => x == "")
+        return Object.values(temp).every(x => x === "")
 
     }
     const { values, setValues, errors, setErrors, handleInputChange } = UseForm(initialFValues);
-    // const data=dataServices.getDataCollection();
+    const dataSelect = dataService.default;
 
-    const handleSubmit = (e) => {
+    const imageHandler = e => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setValues({
+                    img: reader.result
+                })
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+    }
+    const handleSubmit = e => {
         e.preventDefault()
+        console.log('values:', values)
         if (validate())
+            // addOrEdit(values)
             window.alert('testing...')
     }
 
@@ -35,33 +54,93 @@ function Page(props) {
             <Grid container>
                 <Grid item xs={12}>
                     <TextField
+                        required
                         variant="outlined"
-                        label="Name"
-                        name="name"
+                        label="Nombre"
+                        name="nombre"
+                        fullWidth
+                        margin="normal"
                         error
-                        value={values.name}
+                        value={values.nombre}
                         onChange={handleInputChange}
                         error={errors.name}
                         helperText="some validation error."
-
                     />
-                    <FormControl
-                        variant="outlined"
-                    >
-                        <InputLabel>tittle</InputLabel>
-                        <Select
-                            label="label"
-                            name="name"
-                            value="value"
+                    <div>
+                        <FormControl
+                            required
+                            variant="outlined"
                         >
-                            <MenuItem value="">None</MenuItem>
-                            {
-                                
-                                // this.options.map(item => (<MenuItem key={item.id} value={item.id}>{item.tittle}</MenuItem>))
-                            }
-                        </Select>
-                    </FormControl>
+                            <InputLabel shrink>Categoria</InputLabel>
+                            <Select
+                                name="title"
+                                value={values.title}
+                                onChange={handleInputChange}
+                            >
+                                <MenuItem value="" disabled>None</MenuItem>
+                                {
+                                    dataSelect.map(
+                                        item => (
+                                            <MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>
+                                        )
+                                    )
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div>
+                        <TextField
+                            required
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            label="Precio"
+                            name="precio"
+                            error
+                            value={values.precio}
+                            onChange={handleInputChange}
+                            error={errors.name}
+                            helperText="some validation error."
 
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            required
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            label="Descripcion"
+                            multiline
+                            rows={5}
+                            name="descripcion"
+                            error
+                            value={values.descripcion}
+                            onChange={handleInputChange}
+                            error={errors.name}
+                            helperText="some validation error."
+
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            required
+                            fullWidth
+                            margin="normal"
+                            type="file"
+                            variant="outlined"
+                            name="img"
+                            error
+                            onChange={handleInputChange}
+                            error={errors.name}
+                            helperText="some validation error."
+                            accept="image/*"
+                            onChange={imageHandler}
+                        />
+                    </div>
+                    <div>
+                        <img src={values.img} alt="imagen" id="" className="img" style={{ width: 400, height: 265 }}></img>
+                    </div>
                     <div>
                         <Button
                             type="submit"
@@ -69,7 +148,6 @@ function Page(props) {
                             variant="contained"
                             size="large"
                             color="primary"
-
                         >
                             Enviar
                     </Button>

@@ -41,8 +41,15 @@ const headCells = [
 function Page(props) {
     const classes = useStyles();
     const [openPopup, setOpenPopup] = useState(false)
+    
     const [records, setRecords] = useState()
     const { TbContainer, TbHead } = UseTable(records, headCells);
+    
+    const addOrEdit= (data, resetData)=>{
+      
+    }
+    
+    
     return (
         <React.Fragment>
             <Paper className={classes.pageContent}>
@@ -76,11 +83,13 @@ function Page(props) {
                 </TbContainer>
             </Paper>
             <Popup
-                title="Agregar"
+                title="Agregar platillo"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
-                <UserForm />
+                <UserForm 
+                addOrEdit={addOrEdit}
+                />
             </Popup>
         </React.Fragment>
     )
