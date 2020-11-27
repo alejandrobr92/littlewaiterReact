@@ -7,7 +7,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
-function Page(){
+function SideBar(){
     return(
         <div>
         <ListItem button>
@@ -43,4 +43,4 @@ function Page(){
     </div>
     )
 }
-export default Page;
+export default SideBar;

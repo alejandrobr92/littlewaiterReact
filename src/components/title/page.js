@@ -1,6 +1,5 @@
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 function Page(props) {
     const {title}=props;

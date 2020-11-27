@@ -15,21 +15,10 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ListItems from '../listitems';
 import Menu from '../menu';
-import UseTable from '../usetable'
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                LittleWaiter
-        </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Copyright from '../copyRight/CopyRight';
+import SideBar from '../sideBar/SideBar';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -161,7 +150,7 @@ function Page(props) {
                 </div>
                 <Divider />
                 <List>
-                    <ListItems onClick={()=>onSelect()}/>
+                    <SideBar onClick={()=>onSelect()}/>
                 </List>
                 <Divider />
             </Drawer>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Page from './page'
 import { Paper, makeStyles } from '@material-ui/core';
 
@@ -10,7 +10,7 @@ const useStyles=makeStyles(theme=>({
 })
 
 )
-export default function UserForm () {
+export default function FormMenu () {
     const classes=useStyles();
         return (
             <Paper className={classes.pageContent}>

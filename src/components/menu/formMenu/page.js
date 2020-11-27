@@ -1,8 +1,8 @@
 
 import React from 'react'
 import { Grid, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { Form, UseForm } from '../useForm';
-import * as dataService from '../../data/dataService'
+import { Form, UseForm } from '../../useForm';
+import * as dataService from '../../../data/dataService'
 
 const initialFValues = {
     id: 0,
@@ -43,7 +43,6 @@ function Page(props) {
     }
     const handleSubmit = e => {
         e.preventDefault()
-        console.log('values:', values)
         if (validate())
             // addOrEdit(values)
             window.alert('testing...')
@@ -73,11 +72,12 @@ function Page(props) {
                         >
                             <InputLabel shrink>Categoria</InputLabel>
                             <Select
+                                label=""
                                 name="title"
                                 value={values.title}
                                 onChange={handleInputChange}
                             >
-                                <MenuItem value="" disabled>None</MenuItem>
+                                <MenuItem value=""  disabled>None</MenuItem>
                                 {
                                     dataSelect.map(
                                         item => (

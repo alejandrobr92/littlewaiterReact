@@ -1,17 +1,16 @@
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import UseTable from '../usetable'
 import Button from '@material-ui/core/Button';
-import { Paper, Toolbar } from '@material-ui/core';
+import { Paper, Toolbar, InputAdornment } from '@material-ui/core';
 import Popup from "../popup"
-import UserForm from '../pages';
-import Controls from '../controls/controls';
+import { Search } from '@material-ui/icons'
+import Notification from '../notification/Notification';
+import ConfirmDialog from '../confirmDialog/ConfirmDialog';
+import FormMenu from './formMenu';
 
 
 
@@ -29,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     newButton: {
         position: "absolute",
         right: "10px"
+    },
+    searchInput: {
+        width: "95%"
     }
 }));
 
@@ -40,24 +42,54 @@ const headCells = [
 ]
 function Page(props) {
     const classes = useStyles();
-    const [openPopup, setOpenPopup] = useState(false)
-    
     const [records, setRecords] = useState()
+
     const { TbContainer, TbHead } = UseTable(records, headCells);
+    const [openPopup, setOpenPopup] = useState(false)
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, tittle: '', subTittle: '' })
+
     
-    const addOrEdit= (data, resetData)=>{
-      
+    const addOrEdit = (data, resetData) => {
+        // setNotify({
+        //     isOpen:true,
+        //     message:'Success',
+        //     type:'success'
+        // })
     }
-    
-    
+
+    const onDelete = id => {
+
+        // setConfirmDialog({
+        //     ...confirmDialog,
+        //     isOpen: false
+        // })
+
+        // setNotify({
+        //     isOpen:true,
+        //     message:'Success',
+        //     type:'error'
+        // })
+    }
+
+
     return (
         <React.Fragment>
             <Paper className={classes.pageContent}>
                 <Toolbar>
-                    <form className={classes.root} noValidate autoComplete="off">
-                        <TextField id="standard-basic" label="buscar" />
+                    <div>
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField id="standard-basic" label="buscar" variant="outlined"
+                                className={classes.searchInput}
+                                InputProps={{
+                                    startAdornment: (<InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>)
+                                }}
+                            />
+                        </form>
+                    </div>
 
-                    </form>
                     <div>
                         <Button
                             className={classes.newButton}
@@ -87,10 +119,18 @@ function Page(props) {
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
-                <UserForm 
-                addOrEdit={addOrEdit}
+                <FormMenu
+                    addOrEdit={addOrEdit}
                 />
             </Popup>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
         </React.Fragment>
     )
 }
