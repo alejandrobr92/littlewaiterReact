@@ -12,34 +12,31 @@ import Notification from '../notification/Notification';
 import ConfirmDialog from '../confirmDialog/ConfirmDialog';
 import FormMenu from './formMenu';
 
-
-
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    newButton: {
-        position: "absolute",
-        right: "10px"
-    },
-    searchInput: {
-        width: "95%"
-    }
-}));
+  root: {
+      "& > *": {
+          margin: theme.spacing(1),
+          width: "25ch",
+      },
+      pageContent: {
+          margin: theme.spacing(5),
+          padding: theme.spacing(3)
+      },
+      newButton: {
+          position: "absolute",
+          right: "10px"
+      },
+      searchInput: {
+          width: "95%"
+      },
+  }}));
 
 const headCells = [
-    { id: 'fullName', labe: 'E TbContainername' },
-    { id: 'email', labe: 'Email Address' },
-    { id: 'mobile', labe: 'Mobil Number' },
-    { id: 'department', labe: 'Department' },
-]
+  { id: "fullName", labe: "E TbContainername" },
+  { id: "email", labe: "Email Address" },
+  { id: "mobile", labe: "Mobil Number" },
+  { id: "department", labe: "Department" },
+];
 function Page(props) {
     const classes = useStyles();
     const [records, setRecords] = useState()
@@ -72,7 +69,6 @@ function Page(props) {
         // })
     }
 
-
     return (
         <React.Fragment>
             <Paper className={classes.pageContent}>
@@ -102,14 +98,13 @@ function Page(props) {
                     <TableHead />
                     <TableBody>
                         {/* {
+
                     array.map(item=>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.name}</TableCell>
                         </TableRow>)
                         )
-                    
-                    
                     } */}
                     </TableBody>
                 </TbContainer>
