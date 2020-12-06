@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import Page from './page'
  class Card extends Component {
-     render(){
+    
+    
+    render(){
        
         return(
-             <Page/>
+             <Page />
              )
      }
  }
