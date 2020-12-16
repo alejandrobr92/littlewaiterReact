@@ -15,7 +15,8 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Menu from '../menu';
+import Categoria from '../categoria/categoria';
+import Menu from '../menu'
 import Copyright from '../copyRight/CopyRight';
 import SideBar from '../sideBar/SideBar';
 
@@ -157,7 +158,8 @@ function Page(props) {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    <Menu/>
+                    {/* <Menu/> */}
+                    <Categoria/>
                     <Box pt={4}>
                         <Copyright />
                     </Box>

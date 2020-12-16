@@ -50,7 +50,14 @@ function Page(props) {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, tittle: '', subTittle: '' })
 
     
-    const addOrEdit = (data, resetData) => {
+    // const addOrEdit = (data, resetData) => {
+    //     setNotify({
+    //         isOpen:true,
+    //         message:'Success', 
+    //         type:'success'
+    //     })
+    // }
+    const addOrEdit = obj=> {
         // setNotify({
         //     isOpen:true,
         //     message:'Success',
