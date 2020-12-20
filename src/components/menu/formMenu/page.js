@@ -42,12 +42,10 @@ function Page(props) {
         reader.readAsDataURL(e.target.files[0])
     }
     const handleSubmit = e => {
-        e.preventDefault()
-        if (validate())
-            // addOrEdit(values)
-            window.alert('testing...')
+        e.preventDefault();
+        props.addOrEdit(values)        
     }
-
+    
     return (
         <Form onSubmit={handleSubmit}>
             <Grid container>

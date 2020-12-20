@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, Button, 
 
 
 const useStyles= makeStyles(theme=>({
-    root:{
+    dialog:{
         padding:theme.spacing(2),
         position:'absolute',
         top:theme.spacing(5)
@@ -23,7 +23,7 @@ export default function ConfirmDialog(props){
     const { confirmDialog, setConfirmDialog } = props
     const classes=useStyles();
     return(
-        <Dialog open={confirmDialog.isOpen} className={classes.root}>
+        <Dialog open={confirmDialog.isOpen} classes={{ paper:classes.dialog }}>
             <DialogTitle className={classes.dialogTittle}>
             
             </DialogTitle>
@@ -31,18 +31,20 @@ export default function ConfirmDialog(props){
                 <Typography variant="h6">
                     {confirmDialog.tittle}
                 </Typography>
-                <Typography variant="subtittle2">
+                <Typography variant="subtitle2">
                     {confirmDialog.subTittle}
                 </Typography>
             </DialogContent>
             <DialogActions className={classes.dialogAction}>
             <Button
+            variant="contained"
             color="default"
             onClick={()=>setConfirmDialog({...confirmDialog,isOpen:false})}
             >
                 No
             </Button>
             <Button
+            variant="contained"
             color="secondary"
             onClick={confirmDialog.onConfirm}
             >
