@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
 import TextField from '@material-ui/core/TextField';
 import React, { useState, useEffect } from 'react';
 import UseTable from '../usetable'
@@ -13,9 +12,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import Notification from '../notification/Notification';
 import ConfirmDialog from '../confirmDialog/ConfirmDialog';
 import FormCategoria from './formCategoria';
-import firebase from '../../firebase'
 import BarLoader from '../barLoader/BarLoader'
-
+import { getCategories, addOrEditCategorie, removeCategorie } from '../../firebase/categories'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,77 +52,33 @@ export default function Categoria(props) {
 
 
     useEffect(() => {
-        const db = firebase.firestore()
-        const unsubcribe = db.collection("Restaurantes/SYUV0oVZZp2Ndqc3Fx7h/categories")
-            .onSnapshot((snapshot) => {
-                const data = []
-                snapshot.forEach(doc =>
-                    data.push(doc.data()))
-                setCategorias(data)
-
-            })
-        return unsubcribe;
+        const data = getCategories()
+        setCategorias(data)
     }, [])
 
 
+
     const addOrEdit = (values, resetForm) => {
-        const db = firebase.firestore()
-        setLoading(true)
-        if (values.id !== "") {
-            const categoriaEdit = db.collection("Restaurantes/SYUV0oVZZp2Ndqc3Fx7h/categories").doc(values.id)
-            return categoriaEdit.update(values)
-                .then(function () {
-                    resetForm()
-                    setCategoriasEdit(null)
-                    setOpenPopup(false)
-                    setNotify({
-                        isOpen: true,
-                        message: 'Actualizado correctamente',
-                        type: 'success'
-                    })
-                    setLoading(false)
-                    console.log('Document successfully updated!')
+        try {
+            setLoading(true)
+            const response = addOrEditCategorie(values)
+            setCategoriasEdit(null)
+            setOpenPopup(false)
+            response.then(() => {
+                resetForm()
+                setNotify({
+                    isOpen: true,
+                    message: 'Todo salió correctamete!',
+                    type: 'success'
                 })
-                .catch(function (error) {
-                    resetForm()
-                    setCategoriasEdit(null)
-                    setOpenPopup(false)
-                    setLoading(false)
-                    setNotify({
-                        isOpen: true,
-                        message: 'Actualizado correctamente',
-                        type: 'success'
-                    })
-                    setLoading(false)
-                    console.log("Error updating document: ", error)
-                })
-        }
-        else {
-            const nuevaCategoria = db.collection("Restaurantes/SYUV0oVZZp2Ndqc3Fx7h/categories").doc()
-            return nuevaCategoria.set(({ ...values, id: nuevaCategoria.id }))
-                .then(function (docRef) {
-                    resetForm()
-                    setOpenPopup(false)
-                    setCategoriasEdit(null)
-                    setNotify({
-                        isOpen: true,
-                        message: 'Agregado correctamente!',
-                        type: 'success'
-                    })
-                    setLoading(false)
-                })
-                .catch(function (error) {
-                    resetForm()
-                    setCategoriasEdit(null)
-                    setOpenPopup(false)
-                    setNotify({
-                        isOpen: true,
-                        message: 'Success',
-                        type: 'success'
-                    })
-                    setLoading(false)
-                    console.log('error document', error)
-                })
+                setLoading(false)
+            })
+            const data = getCategories()
+            setCategorias(data)
+        } catch (error) {
+            console.log(error)
+            const data = getCategories()
+            setCategorias(data)
         }
 
     }
@@ -136,25 +90,30 @@ export default function Categoria(props) {
     }
 
     const onDelete = (id) => {
-        const db = firebase.firestore()
-        setLoading(true)
-        setConfirmDialog({
-            ...confirmDialog,
-            isOpen: false
-        })
-        db.collection("Restaurantes/SYUV0oVZZp2Ndqc3Fx7h/categories").doc(id).delete()
-            .then(() => {
-                console.log("Document successfully deleted!");
-                setLoading(false)
+        try {
+            setLoading(true)
+            setConfirmDialog({
+                ...confirmDialog,
+                isOpen: false
+            })
+            const response = removeCategorie(id)
+            response.then(() => {
                 setNotify({
                     isOpen: true,
                     message: 'Eliminado con éxito.',
                     type: 'error'
                 })
+                setLoading(false)
             })
-            .catch((error) => {
-                console.error("Error removing document: ", error);
-            })
+            const data = getCategories()
+            setCategorias(data)
+
+        } catch (error) {
+            console.log(error)
+            const data = getCategories()
+            setCategorias(data)
+        }
+
     }
 
 
@@ -190,33 +149,33 @@ export default function Categoria(props) {
                         {
 
                             categorias.map(item =>
-                                (<TableRow key={item.id}>
-                                    <TableCell>{item.nombre}</TableCell>
-                                    <TableCell>{item.descripcion}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => { openInPopup(item) }}
-                                        >
-                                            <EditOutLineIcon fontSize="small" />
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={() => {
-                                                setConfirmDialog({
-                                                    isOpen: true,
-                                                    tittle: 'Esta seguro de eliminar el registro?',
-                                                    subTittle: "No podra recueperarlo después",
-                                                    onConfirm: () => { onDelete(item.id) }
-                                                })
-                                            }}
-                                        >
-                                            <CloseIcon fontSize="small" />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>)
+                            (<TableRow key={item.id}>
+                                <TableCell>{item.nombre}</TableCell>
+                                <TableCell>{item.descripcion}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => { openInPopup(item) }}
+                                    >
+                                        <EditOutLineIcon fontSize="small" />
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={() => {
+                                            setConfirmDialog({
+                                                isOpen: true,
+                                                tittle: 'Esta seguro de eliminar el registro?',
+                                                subTittle: "No podra recueperarlo después",
+                                                onConfirm: () => { onDelete(item.id) }
+                                            })
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="small" />
+                                    </Button>
+                                </TableCell>
+                            </TableRow>)
                             )
                         }
                     </TableBody>
