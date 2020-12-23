@@ -52,19 +52,21 @@ export default function Categoria(props) {
 
 
     useEffect(() => {
-        const data = getCategories()
-        setCategorias(data)
+        getAllCategories()
     }, [])
 
-
+    const getAllCategories = () => {
+        const data = getCategories()
+        setCategorias(data)
+    }
 
     const addOrEdit = (values, resetForm) => {
-        try {
+        
             setLoading(true)
             const response = addOrEditCategorie(values)
-            setCategoriasEdit(null)
-            setOpenPopup(false)
             response.then(() => {
+                setCategoriasEdit(null)
+                setOpenPopup(false)
                 resetForm()
                 setNotify({
                     isOpen: true,
@@ -73,14 +75,8 @@ export default function Categoria(props) {
                 })
                 setLoading(false)
             })
-            const data = getCategories()
-            setCategorias(data)
-        } catch (error) {
-            console.log(error)
-            const data = getCategories()
-            setCategorias(data)
-        }
-
+            getAllCategories()
+        
     }
 
 
@@ -90,7 +86,7 @@ export default function Categoria(props) {
     }
 
     const onDelete = (id) => {
-        try {
+      
             setLoading(true)
             setConfirmDialog({
                 ...confirmDialog,
@@ -105,14 +101,7 @@ export default function Categoria(props) {
                 })
                 setLoading(false)
             })
-            const data = getCategories()
-            setCategorias(data)
-
-        } catch (error) {
-            console.log(error)
-            const data = getCategories()
-            setCategorias(data)
-        }
+            getAllCategories()
 
     }
 
