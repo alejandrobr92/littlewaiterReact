@@ -35,13 +35,6 @@ export default function UseTable(categorias, headCells) {
         </Table>
     )
     const TbHead = props => {
-
-        const handleSortRequest = cellId => {
-            const isAsc = orderBy === cellId && order === "asc"
-            setOrder(isAsc ? 'desc' : 'asc')
-            setOrderBy(cellId)
-        }
-
         return (
             <TableHead>
                 <TableRow>
