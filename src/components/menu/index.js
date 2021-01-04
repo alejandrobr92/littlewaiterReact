@@ -1,14 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import Page from './page'
+import Page from './page';
 class Menu extends Component {
-    render() {
-
-        return (
-            <Page />
-        )
-    }
+  render() {
+    return <Page />;
+  }
 }
-
 
 export default Menu;
