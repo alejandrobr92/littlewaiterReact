@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UseTable(categorias, headCells) {
+export default function UseTable(records, headCells) {
   const classes = useStyles();
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
@@ -65,13 +65,13 @@ export default function UseTable(categorias, headCells) {
       page={page}
       rowsPerPageOptions={pages}
       rowsPerPage={rowsPerPage}
-      count={categorias.lenght}
+      count={records.lenght}
       onChangePage={handleChangePage}
       onChangeRowsPerPage={handleChangeRowsPerPage}
     />
   );
   const recordAferPaginationAndSorting = () => {
-    return categorias.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+    return records.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
   return {
     TbContainer,

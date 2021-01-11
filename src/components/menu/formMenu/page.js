@@ -25,15 +25,6 @@ const initialFValues = {
 };
 function Page(props) {
   const { addOrEdit } = props;
-
-  /*   const validate = () => {
-    let temp = {};
-    temp.name = values.name ? '' : 'Este campo es requerido';
-    setErrors({
-      ...temp,
-    });
-    return Object.values(temp).every((x) => x === '');
-  }; */
   const { values, setValues, errors, handleInputChange } = UseForm(initialFValues);
   const dataSelect = dataService.default;
 

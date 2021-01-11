@@ -1,16 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
 import TextField from '@material-ui/core/TextField';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UseTable from '../usetable';
 import Button from '@material-ui/core/Button';
-import { Paper, Toolbar, InputAdornment } from '@material-ui/core';
+import { Paper, Toolbar, InputAdornment, TableRow, TableCell } from '@material-ui/core';
 import Popup from '../popup';
 import { Search } from '@material-ui/icons';
 import Notification from '../notification/Notification';
 import ConfirmDialog from '../confirmDialog/ConfirmDialog';
 import FormMenu from './formMenu';
+import BarLoader from '../barLoader/BarLoader';
+import * as firestore from '../../firebase/menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,46 +34,66 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'fullName', labe: 'E TbContainername' },
-  { id: 'email', labe: 'Email Address' },
-  { id: 'mobile', labe: 'Mobil Number' },
-  { id: 'department', labe: 'Department' },
+  { id: 'nombre', label: 'Nombre' },
+  { id: 'categoria', label: 'Categoría' },
+  { id: 'precio', label: 'Precio' },
+  { id: 'imagen', label: 'Imagen' },
 ];
-function Page(props) {
+function Menu(props) {
   const classes = useStyles();
-  const [records /* , setRecords */] = useState()[0];
 
-  const { TbContainer /* , TbHead */ } = UseTable(records, headCells);
+  const { TbContainer, TbHead } = UseTable([], headCells);
   const [openPopup, setOpenPopup] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, tittle: '', subTittle: '' });
+  const [loading, setLoading] = useState(false);
+  const [productEdit, setProductEdit] = useState([]);
+  const [menu, setMenu] = useState([]);
 
-  // const addOrEdit = (data, resetData) => {
-  //     setNotify({
-  //         isOpen:true,
-  //         message:'Success',
-  //         type:'success'
-  //     })
-  // }
-  const addOrEdit = (obj) => {
-    // setNotify({
-    //     isOpen:true,
-    //     message:'Success',
-    //     type:'success'
-    // })
+  const addOrEdit = (values, resetForm) => {
+    setLoading(true);
+    const response = firestore.addOrEditProduct(values);
+    response.then(() => {
+      setProductEdit(null);
+      setOpenPopup(false);
+      resetForm();
+      setNotify({
+        isOpen: true,
+        message: 'Todo salió correctamete!',
+        type: 'success',
+      });
+      setLoading(false);
+    });
+    firestore.getMenu();
+  };
+  /*
+  const openInPopup = (item) => {
+    setCategoriasEdit(item);
+    setOpenPopup(true);
   };
 
-  // const onDelete = (id) => {
-  // setConfirmDialog({
-  //     ...confirmDialog,
-  //     isOpen: false
-  // })
-  // setNotify({
-  //     isOpen:true,
-  //     message:'Success',
-  //     type:'error'
-  // })
-  // };
+  const onDelete = (id) => {
+    setLoading(true);
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    const response = removeCategorie(id);
+    response.then(() => {
+      setNotify({
+        isOpen: true,
+        message: 'Eliminado con éxito.',
+        type: 'error',
+      });
+      setLoading(false);
+    });
+    getMenu();
+  };
+   */
+
+  useEffect(() => {
+    setMenu(firestore.getMenu());
+  }, []);
 
   return (
     <React.Fragment>
@@ -108,25 +129,24 @@ function Page(props) {
         </Toolbar>
 
         <TbContainer>
-          <TableHead />
+          <TbHead />
           <TableBody>
-            {/* {
-                    array.map(item=>
-                        (<TableRow key={item.id}>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.name}</TableCell>
-                        </TableRow>)
-                        )
-                    } */}
+            {menu.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.name}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </TbContainer>
       </Paper>
       <Popup title="Agregar platillo" openPopup={openPopup} setOpenPopup={setOpenPopup}>
-        <FormMenu addOrEdit={addOrEdit} />
+        <FormMenu addOrEdit={addOrEdit} productEdit={productEdit} />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      {loading ? <BarLoader width={500} heigth={10} color="red" loading={loading} /> : null}
     </React.Fragment>
   );
 }
-export default Page;
+export default Menu;
