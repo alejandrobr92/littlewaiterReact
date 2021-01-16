@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Categoria from '../categoria/categoria';
-// vimport Menu from '../menu';
+import Menu from '../menu';
 // import * as PropTypes from 'prop-types';
 import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
@@ -39,24 +39,36 @@ const useStyles = makeStyles((theme) => ({
 function Page(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [component, setComponent] = useState('Categorias');
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const loadComponent = () => {
+    switch (component) {
+      case 'Menu':
+        return <Menu />;
+      case 'Categorias':
+        return <Categoria />;
+      default:
+        break;
+    }
   };
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBars handleDrawerOpen={handleDrawerOpen} open={open} />
-      <Drawers handleDrawerClose={handleDrawerClose} open={open} />
+      <Drawers handleDrawerClose={handleDrawerClose} open={open} setComponent={setComponent} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {/* <Menu/> */}
-          <Categoria />
+          {loadComponent()}
           <Box pt={4}>
             <Copyright />
           </Box>
