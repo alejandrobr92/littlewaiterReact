@@ -34,10 +34,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'nombre', label: 'Nombre' },
-  { id: 'categoria', label: 'Categoría' },
+  { id: 'name', label: 'Nombre' },
+  { id: 'category', label: 'Categoría' },
+  { id: 'details', label: 'Detalles' },
+  { id: 'photo', label: 'Foto' },
   { id: 'precio', label: 'Precio' },
-  { id: 'imagen', label: 'Imagen' },
 ];
 function Menu(props) {
   const classes = useStyles();
@@ -134,7 +135,10 @@ function Menu(props) {
             {menu.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.category}</TableCell>
+                <TableCell>{item.details}</TableCell>
+                <TableCell>{item.photo}</TableCell>
+                <TableCell>{item.price}</TableCell>
               </TableRow>
             ))}
           </TableBody>
