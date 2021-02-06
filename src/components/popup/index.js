@@ -50,7 +50,7 @@ export default function Popup(props) {
 
 Popup.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.func,
-  openPopup: PropTypes.string,
+  children: PropTypes.object,
+  openPopup: PropTypes.bool,
   setOpenPopup: PropTypes.func,
 };

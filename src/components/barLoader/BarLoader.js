@@ -12,10 +12,10 @@ const Barloader = (props) => {
 };
 
 Barloader.propTypes = {
-  width: PropTypes.string,
-  heigth: PropTypes.string,
+  width: PropTypes.number,
+  heigth: PropTypes.number,
   color: PropTypes.string,
-  loading: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export default Barloader;

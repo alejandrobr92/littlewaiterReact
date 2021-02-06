@@ -75,6 +75,6 @@ const Drawers = (props) => {
 Drawers.propTypes = {
   handleDrawerClose: PropTypes.func,
   open: PropTypes.bool,
-  setComponent: PropTypes.string,
+  setComponent: PropTypes.func,
 };
 export default Drawers;

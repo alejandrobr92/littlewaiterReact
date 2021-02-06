@@ -23,7 +23,7 @@ function SideBar(props) {
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
-        <ListItemText primary="Orders" onClick={(e) => setComponent('Orders')} />
+        <ListItemText primary="Ordenes" onClick={(e) => setComponent('Ordenes')} />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -48,6 +48,6 @@ function SideBar(props) {
 }
 
 SideBar.propTypes = {
-  setComponent: PropTypes.string,
+  setComponent: PropTypes.func,
 };
 export default SideBar;

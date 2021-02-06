@@ -39,7 +39,7 @@ export default function Notification(props) {
 }
 
 Notification.propTypes = {
-  notify: PropTypes.bool,
+  notify: PropTypes.object,
   setNotify: PropTypes.func,
   isOpen: PropTypes.bool,
 };

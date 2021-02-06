@@ -53,7 +53,7 @@ export default function ConfirmDialog(props) {
 }
 
 ConfirmDialog.propTypes = {
-  confirmDialog: PropTypes.bool,
+  confirmDialog: PropTypes.object,
   setConfirmDialog: PropTypes.func,
   isOpen: PropTypes.bool,
   title: PropTypes.string,
