@@ -7,6 +7,14 @@ export function UseForm(initialFValues) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'price') {
+      const doublePrice = Number(value);
+      setValues({
+        ...values,
+        [name]: doublePrice,
+      });
+      return;
+    }
     setValues({
       ...values,
       [name]: value,

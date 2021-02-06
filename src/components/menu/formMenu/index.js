@@ -8,11 +8,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-export default function FormMenu() {
+export default function FormMenu(props) {
   const classes = useStyles();
   return (
     <Paper className={classes.pageContent}>
-      <Page />
+      <Page {...props} />
     </Paper>
   );
 }

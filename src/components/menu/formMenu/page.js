@@ -13,19 +13,16 @@ import { Form, UseForm } from '../../useForm';
 import * as dataService from '../../../data/dataService';
 
 const initialFValues = {
-  id: 0,
-  title: '',
-  nombre: '',
-  email: '',
-  categoryId: '',
-  precio: '',
-  descripcion: '',
-  categorias: '',
-  img: 'http://weneedfun.com/wp-content/uploads/2015/10/Delicious-Food-Photos-12.jpg',
+  id: '',
+  name: '',
+  category: '',
+  price: 0,
+  details: '',
+  photo: 'http://weneedfun.com/wp-content/uploads/2015/10/Delicious-Food-Photos-12.jpg',
 };
 function Page(props) {
   const { addOrEdit } = props;
-  const { values, setValues, errors, handleInputChange } = UseForm(initialFValues);
+  const { values, setValues, errors, handleInputChange, resetForm } = UseForm(initialFValues);
   const dataSelect = dataService.default;
 
   const imageHandler = (e) => {
@@ -33,7 +30,7 @@ function Page(props) {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setValues({
-          img: reader.result,
+          photo: reader.result,
         });
       }
     };
@@ -41,7 +38,7 @@ function Page(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    addOrEdit(values);
+    addOrEdit(values, resetForm);
   };
 
   return (
@@ -52,10 +49,10 @@ function Page(props) {
             required
             variant="outlined"
             label="Nombre"
-            name="nombre"
+            name="name"
             fullWidth
             margin="normal"
-            value={values.nombre}
+            value={values.name}
             onChange={handleInputChange}
             error={errors.name}
             helperText="some validation error."
@@ -63,7 +60,12 @@ function Page(props) {
           <div>
             <FormControl required variant="outlined">
               <InputLabel shrink>Categoria</InputLabel>
-              <Select label="" name="title" value={values.title} onChange={handleInputChange}>
+              <Select
+                label="Category"
+                name="category"
+                value={values.category}
+                onChange={handleInputChange}
+              >
                 <MenuItem value="" disabled>
                   None
                 </MenuItem>
@@ -82,8 +84,8 @@ function Page(props) {
               margin="normal"
               variant="outlined"
               label="Precio"
-              name="precio"
-              value={values.precio}
+              name="price"
+              value={values.price}
               onChange={handleInputChange}
               error={errors.name}
               helperText="some validation error."
@@ -95,11 +97,11 @@ function Page(props) {
               fullWidth
               margin="normal"
               variant="outlined"
-              label="Descripcion"
+              label="Descripción"
               multiline
               rows={5}
-              name="descripcion"
-              value={values.descripcion}
+              name="details"
+              value={values.details}
               onChange={handleInputChange}
               error={errors.name}
               helperText="some validation error."
@@ -122,7 +124,7 @@ function Page(props) {
           </div>
           <div>
             <img
-              src={values.img}
+              src={values.photo}
               alt="imagen"
               id=""
               className="img"

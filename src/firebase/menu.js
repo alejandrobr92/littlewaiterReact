@@ -19,7 +19,38 @@ export const getMenu = () => {
 };
 
 export const addOrEditProduct = (product) => {
-  //Todo
+  console.log(product);
+  if (product.id === '') {
+    const item = firebase
+      .firestore()
+      .collection('Restaurantes')
+      .doc(idRest)
+      .collection('menu')
+      .doc();
+    return item
+      .set({ ...product, id: item.id })
+      .then(function (docRef) {
+        console.log('Document successfully written!');
+      })
+      .catch(function (error) {
+        console.log('error document', error);
+      });
+  } else {
+    const item = firebase
+      .firestore()
+      .collection('Restaurantes')
+      .doc(idRest)
+      .collection('menu')
+      .doc(product.id);
+    return item
+      .update(product)
+      .then(function () {
+        console.log('Document successfully updated!');
+      })
+      .catch(function (error) {
+        console.log('Error updating document: ', error);
+      });
+  }
 };
 
 export const saveItemMenu = (newItem) => {
