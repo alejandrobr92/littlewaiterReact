@@ -1,4 +1,4 @@
-import firebase from '../firebase';
+import firebase from './firebase';
 
 const idRest = 'SYUV0oVZZp2Ndqc3Fx7h';
 export const getOrders = () => {

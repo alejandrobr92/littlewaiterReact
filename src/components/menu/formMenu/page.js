@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as PropTypes from 'prop-types';
 import {
   Grid,
@@ -21,7 +21,7 @@ const initialFValues = {
   photo: 'http://weneedfun.com/wp-content/uploads/2015/10/Delicious-Food-Photos-12.jpg',
 };
 function Page(props) {
-  const { addOrEdit } = props;
+  const { productEdit, addOrEdit } = props;
   const { values, setValues, errors, handleInputChange, resetForm } = UseForm(initialFValues);
   const dataSelect = dataService.default;
 
@@ -41,6 +41,13 @@ function Page(props) {
     addOrEdit(values, resetForm);
   };
 
+  useEffect(() => {
+    if (productEdit != null) {
+      setValues({
+        ...productEdit,
+      });
+    }
+  }, [productEdit]);
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
@@ -114,7 +121,7 @@ function Page(props) {
               margin="normal"
               type="file"
               variant="outlined"
-              name="img"
+              name="photo"
               onChange={handleInputChange}
               error={errors.name}
               helperText="some validation error."
@@ -144,5 +151,6 @@ function Page(props) {
 
 Page.propTypes = {
   addOrEdit: PropTypes.func,
+  productEdit: PropTypes.object,
 };
 export default Page;

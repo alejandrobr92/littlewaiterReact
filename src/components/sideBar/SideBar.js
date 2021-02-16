@@ -15,21 +15,21 @@ function SideBar(props) {
     <div>
       <ListItem button>
         <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Órdenes" onClick={(e) => setComponent('Ordenes')} />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary="Menu" onClick={(e) => setComponent('Menu')} />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Ordenes" onClick={(e) => setComponent('Ordenes')} />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Categorias" onClick={(e) => setComponent('Categorias')} />
+        <ListItemText primary="Categorías" onClick={(e) => setComponent('Categorias')} />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -41,7 +41,7 @@ function SideBar(props) {
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
-        <ListItemText primary="Estadisticas" onClick={(e) => setComponent('Estadisticas')} />
+        <ListItemText primary="Estadísticas" onClick={(e) => setComponent('Estadisticas')} />
       </ListItem>
     </div>
   );

@@ -1,12 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
 import React, { useState, useEffect } from 'react';
 import UseTable from '../usetable';
 import Button from '@material-ui/core/Button';
-import { Paper, Toolbar, InputAdornment, TableRow, TableCell } from '@material-ui/core';
+import { Paper, TableRow, TableCell } from '@material-ui/core';
 import Popup from '../popup';
-import { Search } from '@material-ui/icons';
 import EditOutLineIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../notification/Notification';
@@ -14,6 +12,7 @@ import ConfirmDialog from '../confirmDialog/ConfirmDialog';
 import FormCategoria from './formCategoria';
 import BarLoader from '../barLoader/BarLoader';
 import { getCategories, addOrEditCategorie, removeCategorie } from '../../firebase/categories';
+import ToolBar from '../toolBar/toolBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,39 +101,7 @@ export default function Categoria(props) {
   return (
     <React.Fragment>
       <Paper className={classes.pageContent}>
-        <Toolbar>
-          <div>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField
-                id="standard-basic"
-                label="buscar"
-                variant="outlined"
-                className={classes.searchInput}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </form>
-          </div>
-
-          <div>
-            <Button
-              color="default"
-              className={classes.newButton}
-              variant="contained"
-              onClick={() => {
-                setOpenPopup(true);
-                setCategoriasEdit(null);
-              }}
-            >
-              +
-            </Button>
-          </div>
-        </Toolbar>
+        <ToolBar setOpenPopup={setOpenPopup} title={'Categorías'} />
         <TbContainer>
           <TbHead />
           <TableBody>
