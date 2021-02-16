@@ -13,35 +13,35 @@ function SideBar(props) {
 
   return (
     <div>
-      <ListItem button>
+      <ListItem button onClick={(e) => setComponent('Menu')}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Menu" onClick={(e) => setComponent('Menu')} />
+        <ListItemText primary="Menu" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={(e) => setComponent('Ordenes')}>
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
-        <ListItemText primary="Ordenes" onClick={(e) => setComponent('Ordenes')} />
+        <ListItemText primary="Ordenes" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={(e) => setComponent('Categorias')}>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Categorias" onClick={(e) => setComponent('Categorias')} />
+        <ListItemText primary="Categorias" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={(e) => setComponent('Promociones')}>
         <ListItemIcon>
           <LayersIcon />
         </ListItemIcon>
-        <ListItemText primary="Promociones" onClick={(e) => setComponent('Promociones')} />
+        <ListItemText primary="Promociones" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={(e) => setComponent('Estadisticas')}>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
-        <ListItemText primary="Estadisticas" onClick={(e) => setComponent('Estadisticas')} />
+        <ListItemText primary="Estadisticas" />
       </ListItem>
     </div>
   );
