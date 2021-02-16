@@ -1,4 +1,4 @@
-import firebase from '../firebase';
+import firebase from './firebase';
 
 //TODO Use real id
 const idRest = 'SYUV0oVZZp2Ndqc3Fx7h';
@@ -12,12 +12,11 @@ export const getCategories = () => {
     .collection('categories')
     .onSnapshot((snapshot) => {
       let changes = snapshot.docChanges();
-
       changes.forEach((change) => {
         items.push(change.doc.data());
+        console.log(change.doc.data());
       });
     });
-
   return items;
 };
 export const removeCategorie = (id) => {

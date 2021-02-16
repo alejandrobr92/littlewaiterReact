@@ -1,17 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
 import React, { useEffect, useState } from 'react';
 import UseTable from '../usetable';
 import Button from '@material-ui/core/Button';
-import { Paper, Toolbar, InputAdornment, TableRow, TableCell } from '@material-ui/core';
+import { Paper, TableRow, TableCell } from '@material-ui/core';
 import Popup from '../popup';
-import { Search } from '@material-ui/icons';
 import Notification from '../notification/Notification';
 import ConfirmDialog from '../confirmDialog/ConfirmDialog';
 import FormMenu from './formMenu';
 import BarLoader from '../barLoader/BarLoader';
 import * as firestore from '../../firebase/menu';
+import EditOutLineIcon from '@material-ui/icons/EditOutlined';
+import CloseIcon from '@material-ui/icons/Close';
+import ToolBar from '../toolBar/toolBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,8 @@ const headCells = [
   { id: 'category', label: 'Categoría' },
   { id: 'details', label: 'Detalles' },
   { id: 'photo', label: 'Foto' },
-  { id: 'precio', label: 'Precio' },
+  { id: 'price', label: 'Precio' },
+  { id: 'actions', label: 'Acciones' },
 ];
 function Menu(props) {
   const classes = useStyles();
@@ -65,21 +67,22 @@ function Menu(props) {
       });
       setLoading(false);
     });
-    firestore.getMenu();
+    getMenu();
   };
-  /*
+
   const openInPopup = (item) => {
-    setCategoriasEdit(item);
+    setProductEdit(item);
     setOpenPopup(true);
   };
 
   const onDelete = (id) => {
+    console.log(id);
     setLoading(true);
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
-    const response = removeCategorie(id);
+    const response = firestore.removeItemMenu(id);
     response.then(() => {
       setNotify({
         isOpen: true,
@@ -90,45 +93,19 @@ function Menu(props) {
     });
     getMenu();
   };
-   */
 
   useEffect(() => {
-    setMenu(firestore.getMenu());
+    getMenu();
   }, []);
 
+  const getMenu = () => {
+    const menu = firestore.getMenu();
+    setMenu(menu);
+  };
   return (
     <React.Fragment>
       <Paper className={classes.pageContent}>
-        <Toolbar>
-          <div>
-            <form className={classes.root} noValidate autoComplete="off">
-              <TextField
-                id="standard-basic"
-                label="buscar"
-                variant="outlined"
-                className={classes.searchInput}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </form>
-          </div>
-
-          <div>
-            <Button
-              className={classes.newButton}
-              variant="contained"
-              onClick={() => setOpenPopup(true)}
-            >
-              +
-            </Button>
-          </div>
-        </Toolbar>
-
+        <ToolBar setOpenPopup={setOpenPopup} title={'Menú'} />
         <TbContainer>
           <TbHead />
           <TableBody>
@@ -139,6 +116,33 @@ function Menu(props) {
                 <TableCell>{item.details}</TableCell>
                 <TableCell>{item.photo}</TableCell>
                 <TableCell>{item.price}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(item);
+                    }}
+                  >
+                    <EditOutLineIcon fontSize="small" />
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      setConfirmDialog({
+                        isOpen: true,
+                        tittle: 'Esta seguro de eliminar el registro?',
+                        subTittle: 'No podra recueperarlo después',
+                        onConfirm: () => {
+                          onDelete(item.id);
+                        },
+                      });
+                    }}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -149,8 +153,9 @@ function Menu(props) {
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-      {loading ? <BarLoader width={500} heigth={10} color="red" loading={loading} /> : null}
+      {loading ? <BarLoader width={500} heigth={10} color="#c79100" loading={loading} /> : null}
     </React.Fragment>
   );
 }
+
 export default Menu;

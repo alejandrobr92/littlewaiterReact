@@ -1,4 +1,4 @@
-import firebase from '../firebase';
+import firebase from './firebase';
 //TODO Use real id
 const idRest = 'SYUV0oVZZp2Ndqc3Fx7h';
 export const getMenu = () => {
@@ -8,19 +8,17 @@ export const getMenu = () => {
     .collection('Restaurantes')
     .doc(idRest)
     .collection('menu')
-    .get()
-    .then((snapshot) => {
+    .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         items.push(doc.data());
+        console.log(doc.data());
       });
-      console.log(items);
     });
   return items;
 };
 
 export const addOrEditProduct = (product) => {
-  console.log(product);
-  if (product.id === '') {
+  if (product.id === '' || product.id === undefined) {
     const item = firebase
       .firestore()
       .collection('Restaurantes')
@@ -61,4 +59,21 @@ export const saveItemMenu = (newItem) => {
     .collection('menu')
     .add(newItem)
     .then(console.log('Added new item'));
+};
+
+export const removeItemMenu = (id) => {
+  const item = firebase
+    .firestore()
+    .collection('Restaurantes')
+    .doc(idRest)
+    .collection('menu')
+    .doc(id);
+  return item
+    .delete()
+    .then(() => {
+      console.log('Document successfully deleted!');
+    })
+    .catch((error) => {
+      console.error('Error removing document: ', error);
+    });
 };

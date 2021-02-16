@@ -60,7 +60,7 @@ const Page = (props) => {
           </div>
           <div>
             <Button type="submit" text="submit" variant="contained" size="large" color="primary">
-              {categoriasEdit == null ? 'guardar' : 'actualizar'}
+              {categoriasEdit == null ? 'Guardar' : 'Actualizar'}
             </Button>
           </div>
         </Grid>
