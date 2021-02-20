@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Categoria from '../categoria/categoria';
 import Menu from '../menu';
-import Ordenes from '../ordenes/Ordenes';
+import Ordenes from '../orders/Ordenes';
 // import * as PropTypes from 'prop-types';
 import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
