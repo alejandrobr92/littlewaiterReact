@@ -4,14 +4,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import Categoria from '../categoria/categoria';
-import Menu from '../menu';
-import Ordenes from '../ordenes/Ordenes';
 // import * as PropTypes from 'prop-types';
 import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
 import Drawers from '../drawers/Drawers';
 import { useState } from 'react';
+import Categoria from '../categoria/categoria';
+import Menu from '../menu';
+import Ordenes from '../ordenes/Ordenes';
+import Estadisticas from '../estadisticas/Estadisticas';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +59,8 @@ function Page(props) {
         return <Categoria />;
       case 'Ordenes':
         return <Ordenes />;
+      case 'Estadisticas':
+        return <Estadisticas />;
       default:
         break;
     }
