@@ -12,9 +12,6 @@ import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
 import Drawers from '../drawers/Drawers';
 import { useState } from 'react';
-import Categoria from '../categoria/categoria';
-import Menu from '../menu';
-import Ordenes from '../ordenes/Ordenes';
 import Estadisticas from '../estadisticas/Estadisticas';
 
 const useStyles = makeStyles((theme) => ({
