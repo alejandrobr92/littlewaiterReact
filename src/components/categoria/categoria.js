@@ -39,7 +39,6 @@ const headCells = [
   { id: 1, label: 'Descripcion' },
   { id: 3, label: 'Acciones' },
 ];
-
 export default function Categoria(props) {
   const classes = useStyles();
   const [categoriasEdit, setCategoriasEdit] = useState([]);
