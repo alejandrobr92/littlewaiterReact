@@ -10,7 +10,7 @@ const ToolBar = (props) => {
   return (
     <Toolbar>
       <div>
-          <h1>{title}</h1>
+        <h1>{title}</h1>
         <form noValidate autoComplete="off">
           <TextField
             id="standard-basic"
