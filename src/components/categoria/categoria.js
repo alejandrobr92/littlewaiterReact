@@ -13,6 +13,7 @@ import FormCategoria from './formCategoria';
 import BarLoader from '../barLoader/BarLoader';
 import { getCategories, addOrEditCategorie, removeCategorie } from '../../firebase/categories';
 import ToolBar from '../toolBar/toolBar';
+import Title from '../title/Title';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +26,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
-  newButton: {
-    position: 'absolute',
-    right: '10px',
-  },
-  searchInput: {
-    width: '95%',
-  },
 }));
 
 const headCells = [
@@ -43,11 +37,11 @@ export default function Categoria(props) {
   const classes = useStyles();
   const [categoriasEdit, setCategoriasEdit] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const { TbContainer, TbHead /* , TbPagination */ } = UseTable(categorias, headCells);
   const [openPopup, setOpenPopup] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, tittle: '', subTittle: '' });
   const [loading, setLoading] = useState(false);
+  const { TbContainer, TbHead /* , TbPagination */ } = UseTable(categorias, headCells);
 
   useEffect(() => {
     getAllCategories();
@@ -101,7 +95,8 @@ export default function Categoria(props) {
   return (
     <React.Fragment>
       <Paper className={classes.pageContent}>
-        <ToolBar setOpenPopup={setOpenPopup} title={'Categorías'} />
+        <Title title="Categoría" />
+        <ToolBar setOpenPopup={setOpenPopup} />
         <TbContainer>
           <TbHead />
           <TableBody>
@@ -113,6 +108,7 @@ export default function Categoria(props) {
                   <Button
                     variant="contained"
                     color="primary"
+                    size="small"
                     onClick={() => {
                       openInPopup(item);
                     }}
@@ -122,6 +118,7 @@ export default function Categoria(props) {
                   <Button
                     variant="contained"
                     color="secondary"
+                    size="small"
                     onClick={() => {
                       setConfirmDialog({
                         isOpen: true,

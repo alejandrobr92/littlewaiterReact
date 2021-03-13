@@ -37,12 +37,6 @@ export default function UseTable(records, headCells) {
   // const [order, setOrder] = useState();
   // const [orderBy, setOrderBy] = useState();
 
-  const TbContainer = (props) => {
-    return <Table className={classes.table}>{props.children}</Table>;
-  };
-  TbContainer.propTypes = {
-    children: PropTypes.node,
-  };
   const TbHead = (props) => {
     return (
       <TableHead>
@@ -54,6 +48,13 @@ export default function UseTable(records, headCells) {
       </TableHead>
     );
   };
+  const TbContainer = (props) => {
+    return <Table className={classes.table}>{props.children}</Table>;
+  };
+  TbContainer.propTypes = {
+    children: PropTypes.node,
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

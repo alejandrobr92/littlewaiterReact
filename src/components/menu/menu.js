@@ -13,6 +13,7 @@ import * as firestore from '../../firebase/menu';
 import EditOutLineIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import ToolBar from '../toolBar/toolBar';
+import Title from '../title/Title';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,17 +21,10 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: '25ch',
     },
-    pageContent: {
-      margin: theme.spacing(5),
-      padding: theme.spacing(3),
-    },
-    newButton: {
-      position: 'absolute',
-      right: '10px',
-    },
-    searchInput: {
-      width: '95%',
-    },
+  },
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3),
   },
 }));
 
@@ -105,7 +99,8 @@ function Menu(props) {
   return (
     <React.Fragment>
       <Paper className={classes.pageContent}>
-        <ToolBar setOpenPopup={setOpenPopup} title={'Menú'} />
+        <Title title="Menú" />
+        <ToolBar setOpenPopup={setOpenPopup} />
         <TbContainer>
           <TbHead />
           <TableBody>
@@ -120,6 +115,7 @@ function Menu(props) {
                   <Button
                     variant="contained"
                     color="primary"
+                    size="small"
                     onClick={() => {
                       openInPopup(item);
                     }}
@@ -129,6 +125,7 @@ function Menu(props) {
                   <Button
                     variant="contained"
                     color="secondary"
+                    size="small"
                     onClick={() => {
                       setConfirmDialog({
                         isOpen: true,

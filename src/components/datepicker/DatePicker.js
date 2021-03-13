@@ -3,9 +3,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import DateFnsUtils from '@date-io/date-fns';
 import * as PropTypes from 'prop-types';
 
-function DatePicker(props) {
-  const [values, setValues] = useState({ hireDate: new Date() });
-  const { name, label } = props;
+export function DatePicker(initialFValues) {
+  const [values, setValues] = useState(initialFValues);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -14,6 +13,14 @@ function DatePicker(props) {
       [name]: value,
     });
   };
+  return {
+    values,
+    setValues,
+    handleInputChange,
+  };
+}
+export function Form(props) {
+  const { name, label, value, onChange } = props;
   const convertToDefEventPara = (name, value) => ({
     target: {
       name,
@@ -29,14 +36,16 @@ function DatePicker(props) {
         label={label}
         format="dd/MMM/yyyy"
         name={name}
-        value={values.hireDate}
-        onChange={(date) => handleInputChange(convertToDefEventPara(name, date))}
+        value={value}
+        onChange={(date) => onChange(convertToDefEventPara(name, date))}
       />
     </MuiPickersUtilsProvider>
   );
 }
-DatePicker.propTypes = {
+Form.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  // setValues: PropTypes.any,
 };
-export default DatePicker;
