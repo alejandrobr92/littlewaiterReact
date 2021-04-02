@@ -16,9 +16,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const ToolBar = (props) => {
-  const { setOpenPopup, label, name, value, onChange } = props;
-
+  const { setOpenPopup, label, name, value, onChange, setViewButton, addNewItem } = props;
   const classes = useStyles();
+
+  const button = () => {
+    if (setViewButton) {
+      return (
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.newButton}
+          onClick={() => {
+            setOpenPopup(true), addNewItem;
+          }}
+        >
+          +
+        </Button>
+      );
+    }
+  };
   return (
     <Toolbar>
       <TextField
@@ -38,14 +54,7 @@ const ToolBar = (props) => {
           ),
         }}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.newButton}
-        onClick={() => setOpenPopup(true)}
-      >
-        +
-      </Button>
+      {button()}
     </Toolbar>
   );
 };
@@ -56,5 +65,7 @@ ToolBar.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  setViewButton: PropTypes.bool,
+  addNewItem: PropTypes.any,
 };
 export default ToolBar;

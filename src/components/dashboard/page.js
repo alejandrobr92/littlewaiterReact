@@ -12,7 +12,8 @@ import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
 import Drawers from '../drawers/Drawers';
 import { useState } from 'react';
-import Estadisticas from '../estadisticas/Estadisticas';
+// import Estadisticas from '../estadisticas/Estadisticas';
+import Graphics from '../estadisticas/Graphics';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +61,7 @@ function Page(props) {
       case 'Ordenes':
         return <Ordenes />;
       case 'Estadisticas':
-        return <Estadisticas />;
+        return <Graphics />;
       default:
         break;
     }

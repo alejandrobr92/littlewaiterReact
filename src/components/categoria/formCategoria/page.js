@@ -70,7 +70,7 @@ const Page = (props) => {
 };
 
 Page.propTypes = {
-  categoriasEdit: PropTypes.object,
+  categoriasEdit: PropTypes.any,
   addOrEdit: PropTypes.func,
 };
 

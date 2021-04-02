@@ -9,7 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import { Paper, TableRow, TableCell, Button } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { getSells } from '../../firebase/sells';
-import Title from '../title/Title';
+// import Title from '../title/Title';
 import Details from '../estadisticas/Details';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 0, label: 'id pedido' },
-  { id: 1, label: 'Total' },
-  { id: 2, label: 'Mesa' },
-  { id: 3, label: 'Fecha' },
-  { id: 4, label: 'Acciones' },
+  { id: 0, label: 'Fecha' },
+  { id: 1, label: 'Id pedido' },
+  { id: 2, label: 'Total' },
+  { id: 3, label: 'Acciones' },
 ];
 const initialFValues = {
   fechaIncio: new Date(),
@@ -60,12 +59,14 @@ function Estadisticas() {
     const target = e.target;
     setFilterFn(target.value);
   };
-  const openModal = () => {
+
+  const openOrCloseModal = () => {
     setModal(!modal);
   };
+
   const handleOpenModal = (venta) => {
     setVentaDetail(venta);
-    openModal();
+    openOrCloseModal();
   };
   const convertTime = (timestamp) => {
     let date = timestamp.toDate();
@@ -77,7 +78,7 @@ function Estadisticas() {
     return date;
   };
   const TableRows = () => {
-    const columns = ventas[0] && Object.keys(ventas[0]);
+    // const columns = ventas[0] && Object.keys(ventas[0]);
     return (
       <TableBody>
         {ventas
@@ -85,17 +86,17 @@ function Estadisticas() {
             if (filterFn == '') {
               return item;
             } else {
-              return columns.some((column) =>
-                item[column].toString().toLowerCase().includes(filterFn.toLowerCase()),
-              );
+              // filterTable(item);
+              // return columns.some((column) =>
+              // item[column].toString().toLowerCase().includes(filterFn.toLowerCase()),
+              // );
             }
           })
           .map((venta) => (
             <TableRow key={venta.id}>
+              <TableCell>{convertTime(venta.time)}</TableCell>
               <TableCell>{venta.id}</TableCell>
               <TableCell>{'$ ' + venta.total}</TableCell>
-              <TableCell>{venta.table}</TableCell>
-              <TableCell>{convertTime(venta.time)}</TableCell>
               <TableCell>
                 <Button
                   color="primary"
@@ -114,7 +115,7 @@ function Estadisticas() {
   const classes = useStyles();
   return (
     <Paper className={classes.pageContent}>
-      <Title title="Estadísticas" />
+      {/* <Title title="Estadísticas" /> */}
       <Grid container className={classes.root2} spacing={2}>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12} md={4}>
@@ -142,7 +143,7 @@ function Estadisticas() {
         <TbHead />
         <TableRows />
       </TbContainer>
-      <Details open={modal} openModal={openModal} data={ventaDetail} />;
+      <Details open={modal} openOrCloseModal={openOrCloseModal} data={ventaDetail} />
     </Paper>
   );
 }

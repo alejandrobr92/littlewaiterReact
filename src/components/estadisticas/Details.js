@@ -34,7 +34,7 @@ const headCells = [
 function Details(props) {
   const { TbContainer, TbHead } = UseTable([], headCells);
   const classes = useStyles();
-  const { open, openModal, data } = props;
+  const { open, openOrCloseModal, data } = props;
 
   const TableCells = () => {
     if (data.lenght !== 0) {
@@ -71,7 +71,7 @@ function Details(props) {
     </div>
   );
   return (
-    <Modal aria-labelledby="detalles" open={open} onClose={openModal}>
+    <Modal aria-labelledby="detalles" open={open} onClose={openOrCloseModal}>
       {body}
     </Modal>
   );
@@ -79,7 +79,7 @@ function Details(props) {
 
 Details.propTypes = {
   open: PropTypes.bool,
-  openModal: PropTypes.func,
-  data: PropTypes.object,
+  openOrCloseModal: PropTypes.func,
+  data: PropTypes.any,
 };
 export default Details;

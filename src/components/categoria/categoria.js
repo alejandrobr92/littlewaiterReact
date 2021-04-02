@@ -35,7 +35,7 @@ const headCells = [
 ];
 export default function Categoria(props) {
   const classes = useStyles();
-  const [categoriasEdit, setCategoriasEdit] = useState([]);
+  const [categoriasEdit, setCategoriasEdit] = useState(null);
   const [categorias, setCategorias] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
@@ -96,7 +96,11 @@ export default function Categoria(props) {
     <React.Fragment>
       <Paper className={classes.pageContent}>
         <Title title="Categoría" />
-        <ToolBar setOpenPopup={setOpenPopup} />
+        <ToolBar
+          setOpenPopup={setOpenPopup}
+          setViewButton={true}
+          addNewItem={() => setCategoriasEdit(null)}
+        />
         <TbContainer>
           <TbHead />
           <TableBody>

@@ -8,7 +8,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PropTypes from 'prop-types';
-
+import { logOut } from '../../firebase/login';
+import { useHistory } from 'react-router-dom';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,16 @@ const useStyles = makeStyles((theme) => ({
 const AppBars = (props) => {
   const classes = useStyles();
   const { handleDrawerOpen, open } = props;
+  const history = useHistory();
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      history.push('/login');
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -70,7 +81,7 @@ const AppBars = (props) => {
           Admin Little Waiter
         </Typography>
 
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={handleLogOut}>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Log out
           </Typography>

@@ -34,7 +34,7 @@ export function Form(props) {
         variant="inline"
         inputVariant="outlined"
         label={label}
-        format="dd/MMM/yyyy"
+        format="dd/MM/yyyy"
         name={name}
         value={value}
         onChange={(date) => onChange(convertToDefEventPara(name, date))}

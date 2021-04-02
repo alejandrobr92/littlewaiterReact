@@ -14,7 +14,6 @@ export const getCategories = () => {
       let changes = snapshot.docChanges();
       changes.forEach((change) => {
         items.push(change.doc.data());
-        console.log(change.doc.data());
       });
     });
   return items;

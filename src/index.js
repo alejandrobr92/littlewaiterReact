@@ -12,8 +12,6 @@ class Root extends Component {
         <Switch>
           <Route exact path="/login" component={Login} fire={firebase} />
           <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/dashboard/menu" component={Dashboard} />
-          <Route exact path="/dashboard/categoria" component={Dashboard} />
           {/* <Route exact path="/details/:itemId" component={Details} /> */}
           <Redirect from="/" to="/login" />
         </Switch>

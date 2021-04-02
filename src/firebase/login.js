@@ -1,15 +1,11 @@
 import firebase from './firebase';
 
-const signIn = (email, password) => {
-  console.log('On signIn');
+export const signIn = (email, password) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-      // Signed in
-      // ...
-      console.log('Signed in!');
-      setTimeout(() => console.log('waiting'), 2000);
+      console.log('Signed in');
     })
     .catch((error) => {
       console.log(error.code);
@@ -17,4 +13,20 @@ const signIn = (email, password) => {
     });
 };
 
-export default signIn;
+export const logOut = () => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log('sign-out successful');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const onAuthUser = () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    //user is signed in
+  });
+};

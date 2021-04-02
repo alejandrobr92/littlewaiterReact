@@ -151,6 +151,6 @@ function Page(props) {
 
 Page.propTypes = {
   addOrEdit: PropTypes.func,
-  productEdit: PropTypes.object,
+  productEdit: PropTypes.any,
 };
 export default Page;
