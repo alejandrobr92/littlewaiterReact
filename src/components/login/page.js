@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,11 +9,13 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import './styles.css';
-import { signIn, onAuthUser } from '../../firebase/login';
-import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../firebase/login';
+import { useHistory, Redirect } from 'react-router-dom';
+import Notification from '../notification/Notification';
+import { Form, UseForm } from '../useForm';
+// import BarLoader from '../barLoader/BarLoader';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,48 +37,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialFValues = {
+  email: '',
+  password: '',
+  rememberme: false,
+};
 function Page(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // const [currentUser,setCurrentUser] = useState(null);
-  const [rememberme, setRememberMe] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const { signIn, currentUser, notify, setNotify } = useAuth();
+  const { values, handleInputChange } = UseForm(initialFValues);
   const history = useHistory();
-
-  const emailChangeHandler = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-  };
-
-  const passChangeHandler = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-  };
-
-  const handleCheck = (e) => {
-    const value = e.target.value;
-    setRememberMe(value);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signIn(email, password);
+      await signIn(values.email, values.password);
       history.push('/dashboard');
     } catch (error) {
       console.log('error login....', error);
     }
   };
 
-  useEffect(() => {
-    onAuthUser();
-  }, []);
+  if (currentUser != null) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <Fragment>
       <CssBaseline />
       <div className="card-container">
-        <Card className="card">
+        <Card className="card" elevation={5}>
           <CardContent>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -86,7 +77,7 @@ function Page(props) {
                 Iniciar sesión
               </Typography>
             </div>
-            <form className={classes.form}>
+            <Form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -95,10 +86,9 @@ function Page(props) {
                 id="email"
                 label="Correo electrónico"
                 name="email"
-                autoComplete="email"
                 autoFocus
-                value={email}
-                onChange={emailChangeHandler}
+                value={values.email}
+                onChange={handleInputChange}
               />
               <TextField
                 variant="outlined"
@@ -109,12 +99,17 @@ function Page(props) {
                 label="Contraseña"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={passChangeHandler}
+                value={values.password}
+                onChange={handleInputChange}
               />
               <FormControlLabel
-                control={<Checkbox value={rememberme} color="primary" onChange={handleCheck} />}
+                control={
+                  <Checkbox
+                    value={values.rememberme}
+                    color="primary"
+                    onChange={handleInputChange}
+                  />
+                }
                 label="Recordarme"
               />
               <Button
@@ -123,12 +118,12 @@ function Page(props) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={handleSubmit}
               >
                 Enviar
               </Button>
-            </form>
+            </Form>
           </CardContent>
+          <Notification notify={notify} setNotify={setNotify} />
         </Card>
       </div>
     </Fragment>

@@ -1,32 +1,68 @@
+import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import firebase from './firebase';
 
-export const signIn = (email, password) => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log('Signed in');
-    })
-    .catch((error) => {
-      console.log(error.code);
-      console.log(error.message);
-    });
+const AuthContext = React.createContext();
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
-export const logOut = () => {
-  firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      console.log('sign-out successful');
-    })
-    .catch((error) => {
-      console.log(error);
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [loading, setLoading] = useState(true);
+
+  const signIn = (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log('Signed in user success:=>', user);
+      })
+      .catch((error) => {
+        setNotify({
+          isOpen: true,
+          message: 'usuario y/o contraseña incorrecto',
+          type: 'error',
+        });
+        console.log('error message:=>', error.message);
+        console.log('error message:=>', error.code);
+      });
+  };
+
+  const logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log('sign-out successful');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setLoading(false);
+      setCurrentUser(user);
     });
+
+    return unsubscribe;
+  }, []);
+
+  const value = {
+    currentUser,
+    notify,
+    setNotify,
+    signIn,
+    logOut,
+  };
+
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
 
-export const onAuthUser = () => {
-  firebase.auth().onAuthStateChanged((user) => {
-    //user is signed in
-  });
+AuthProvider.propTypes = {
+  children: PropTypes.any,
 };

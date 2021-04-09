@@ -1,16 +1,22 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
+import { useAuth } from './firebase/login';
+import PropTypes from 'prop-types';
 
-function privateRoute({component: Component, ...rest}) {
-    return (
-        <Route {...rest}
-        render={props => {
-            
-        }}>
-            
-        </Route>
-    )
+function PrivateRoute({ component: Component, ...rest }) {
+  const { currentUser } = useAuth();
+
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return currentUser ? <Component {...props} /> : <Redirect to="/login" />;
+      }}
+    ></Route>
+  );
 }
 
-export default privateRoute;
-
+PrivateRoute.propTypes = {
+  component: PropTypes.any,
+};
+export default PrivateRoute;

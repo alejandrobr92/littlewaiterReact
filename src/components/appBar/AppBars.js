@@ -8,7 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PropTypes from 'prop-types';
-import { logOut } from '../../firebase/login';
+import { useAuth } from '../../firebase/login';
 import { useHistory } from 'react-router-dom';
 const drawerWidth = 240;
 
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const AppBars = (props) => {
   const classes = useStyles();
   const { handleDrawerOpen, open } = props;
+  const { logOut } = useAuth();
   const history = useHistory();
 
   const handleLogOut = async () => {

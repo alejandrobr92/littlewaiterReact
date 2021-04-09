@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Login from './components/login';
 import Dashboard from './components/dashboard';
-import firebase from 'firebase';
+import { AuthProvider } from './firebase/login';
+import PrivateRoute from './PrivateRoute';
 
 class Root extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/login" component={Login} fire={firebase} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          {/* <Route exact path="/details/:itemId" component={Details} /> */}
-          <Redirect from="/" to="/login" />
-        </Switch>
+        <AuthProvider>
+          <Switch>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/login" component={Login} />
+            {/* <Route exact path="/details/:itemId" component={Details} /> */}
+            <Redirect from="/" to="/login" />
+          </Switch>
+        </AuthProvider>
       </BrowserRouter>
     );
   }
