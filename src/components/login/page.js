@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,11 +12,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import './styles.css';
 import { useAuth } from '../../firebase/login';
-import { useHistory, Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import Notification from '../notification/Notification';
 import { Form, UseForm } from '../useForm';
-// import BarLoader from '../barLoader/BarLoader';
-
+import BarLoader from '../barLoader/BarLoader';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -35,6 +34,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  container: {
+    marginTop: theme.spacing(20),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  contentImage: {
+    width: '100px',
+    height: '70px',
+    margin: theme.spacing(3, 0, 1),
+    padding: theme.spacing(1, 2, 1),
+  },
+  contentLoader: {
+    width: '250px',
+    height: '10px',
+    margin: theme.spacing(2),
+    padding: theme.spacing(3),
+  },
 }));
 
 const initialFValues = {
@@ -44,88 +61,107 @@ const initialFValues = {
 };
 function Page(props) {
   const classes = useStyles();
-  // const [loading, setLoading] = useState(false);
-  const { signIn, currentUser, notify, setNotify } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { currentUser, notify, setNotify, signIn } = useAuth();
   const { values, handleInputChange } = UseForm(initialFValues);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await signIn(values.email, values.password);
-      history.push('/dashboard');
+      setTimeout(() => {
+        setLoading(false);
+        history.push('/dashboard');
+      }, 2000);
     } catch (error) {
       console.log('error login....', error);
+      setLoading(false);
     }
   };
-
-  if (currentUser != null) {
+  const Loader = () => {
+    return (
+      <div className={classes.container}>
+        <div className={classes.contentImage}>
+          <img src={'https://i.imgur.com/qundQaI.gif'} alt="logo" width="100px" heigth="20px" />
+        </div>
+        <div className={classes.contentLoader}>
+          <BarLoader width={250} heigth={5} color={'#FBA100'} loading={loading} />
+        </div>
+      </div>
+    );
+  };
+  if (currentUser !== null) {
     return <Redirect to="/dashboard" />;
   }
-
   return (
     <Fragment>
-      <CssBaseline />
-      <div className="card-container">
-        <Card className="card" elevation={5}>
-          <CardContent>
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Iniciar sesión
-              </Typography>
-            </div>
-            <Form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Correo electrónico"
-                name="email"
-                autoFocus
-                value={values.email}
-                onChange={handleInputChange}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Contraseña"
-                type="password"
-                id="password"
-                value={values.password}
-                onChange={handleInputChange}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value={values.rememberme}
-                    color="primary"
-                    onChange={handleInputChange}
-                  />
-                }
-                label="Recordarme"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Enviar
-              </Button>
-            </Form>
-          </CardContent>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="card-container">
+          <CssBaseline />
+          <Card className="card" elevation={7}>
+            <CardContent>
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Iniciar sesión
+                </Typography>
+              </div>
+              <Form className={classes.form} onSubmit={handleSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Correo electrónico"
+                  name="email"
+                  autoFocus
+                  value={values.email}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  value={values.password}
+                  onChange={handleInputChange}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={values.rememberme}
+                      color="primary"
+                      onChange={handleInputChange}
+                    />
+                  }
+                  label="Recordarme"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Enviar
+                </Button>
+              </Form>
+            </CardContent>
+          </Card>
           <Notification notify={notify} setNotify={setNotify} />
-        </Card>
-      </div>
+        </div>
+      )}
     </Fragment>
   );
 }

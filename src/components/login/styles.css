@@ -3,6 +3,7 @@
 }
 .card{
     width: 345px;
+    margin: 55px;
 }
 .card-container {
     display:flex;

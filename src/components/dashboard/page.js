@@ -7,13 +7,11 @@ import Container from '@material-ui/core/Container';
 import Categoria from '../categoria/categoria';
 import Menu from '../menu';
 import Ordenes from '../orders/Ordenes';
-// import * as PropTypes from 'prop-types';
 import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
 import Drawers from '../drawers/Drawers';
 import { useState } from 'react';
-// import Estadisticas from '../estadisticas/Estadisticas';
-import Graphics from '../estadisticas/Graphics';
+// import Graphics from '../estadisticas/Graphics';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,8 +58,8 @@ function Page(props) {
         return <Categoria />;
       case 'Ordenes':
         return <Ordenes />;
-      case 'Estadisticas':
-        return <Graphics />;
+      // case 'Estadisticas':
+      // return <Graphics />;
       default:
         break;
     }

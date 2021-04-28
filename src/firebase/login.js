@@ -13,22 +13,22 @@ export const AuthProvider = ({ children }) => {
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [loading, setLoading] = useState(true);
 
-  const signIn = (email, password) => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        console.log('Signed in user success:=>', user);
-      })
-      .catch((error) => {
-        setNotify({
-          isOpen: true,
-          message: 'usuario y/o contraseña incorrecto',
-          type: 'error',
-        });
-        console.log('error message:=>', error.message);
-        console.log('error message:=>', error.code);
+  const signIn = async (email, password) => {
+    let userValue = null;
+    userValue = firebase.auth().signInWithEmailAndPassword(email, password);
+    try {
+      const userCredential = await userValue;
+      const user = userCredential.user;
+      return user;
+    } catch (error) {
+      setNotify({
+        isOpen: true,
+        message: 'usuario y/o contraseña incorrecto',
+        type: 'error',
       });
+      console.log('error message:=>', error.message);
+      console.log('error message:=>', error.code);
+    }
   };
 
   const logOut = () => {
