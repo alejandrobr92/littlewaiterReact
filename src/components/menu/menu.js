@@ -100,7 +100,12 @@ function Menu(props) {
     <React.Fragment>
       <Paper className={classes.pageContent}>
         <Title title="Menú" />
-        <ToolBar setOpenPopup={setOpenPopup} setViewButton={true} />
+        <ToolBar
+          setOpenPopup={setOpenPopup}
+          setViewButton={true}
+          setProductEdit={() => setProductEdit(null)}
+          nameContent={'menu'}
+        />
         <TbContainer>
           <TbHead />
           <TableBody>

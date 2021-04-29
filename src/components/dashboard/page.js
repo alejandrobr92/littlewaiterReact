@@ -40,14 +40,17 @@ const useStyles = makeStyles((theme) => ({
 function Page(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [component, setComponent] = useState('Categorias');
+  const [toolTip, setToolTip] = useState(true);
+  const [component, setComponent] = useState('Estadistica');
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    setToolTip(false);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    setToolTip(true);
   };
 
   const loadComponent = () => {
@@ -69,7 +72,12 @@ function Page(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBars handleDrawerOpen={handleDrawerOpen} open={open} />
-      <Drawers handleDrawerClose={handleDrawerClose} open={open} setComponent={setComponent} />
+      <Drawers
+        handleDrawerClose={handleDrawerClose}
+        open={open}
+        toolTip={toolTip}
+        setComponent={setComponent}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>

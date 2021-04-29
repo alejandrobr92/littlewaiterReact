@@ -2,37 +2,41 @@ import firebase from './firebase';
 
 //TODO Use real id
 const idRest = 'SYUV0oVZZp2Ndqc3Fx7h';
-export const getCategories = () => {
+export const getCategories = async () => {
   const items = [];
-
-  firebase
+  const values = firebase
     .firestore()
     .collection('Restaurantes')
     .doc(idRest)
     .collection('categories')
-    .onSnapshot((snapshot) => {
-      let changes = snapshot.docChanges();
-      changes.forEach((change) => {
-        items.push(change.doc.data());
-      });
+    .get();
+  try {
+    const snapshot = await values;
+    let changes = snapshot.docChanges();
+    changes.forEach((change) => {
+      items.push(change.doc.data());
     });
-  return items;
+    return items;
+  } catch (error) {
+    console.log('error', error);
+  }
 };
-export const removeCategorie = (id) => {
+export const removeCategorie = async (id) => {
+  let response = false;
   const item = firebase
     .firestore()
     .collection('Restaurantes')
     .doc(idRest)
     .collection('categories')
     .doc(id);
-  return item
-    .delete()
-    .then(() => {
-      console.log('Document successfully deleted!');
-    })
-    .catch((error) => {
-      console.error('Error removing document: ', error);
-    });
+  try {
+    await item.delete();
+    response = true;
+    console.log('Document successfully deleted!');
+    return response;
+  } catch (error) {
+    console.error('Error removing document: ', error);
+  }
 };
 export const addOrEditCategorie = (categoria) => {
   if (categoria.id === '') {

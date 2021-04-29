@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Drawers = (props) => {
   const classes = useStyles();
-  const { handleDrawerClose, open, setComponent } = props;
+  const { handleDrawerClose, open, toolTip, setComponent } = props;
 
   return (
     <Drawer
@@ -65,7 +65,7 @@ const Drawers = (props) => {
       </div>
       <Divider />
       <List>
-        <SideBar setComponent={setComponent} />
+        <SideBar toolTip={toolTip} setComponent={setComponent} />
       </List>
       <Divider />
     </Drawer>
@@ -76,5 +76,6 @@ Drawers.propTypes = {
   handleDrawerClose: PropTypes.func,
   open: PropTypes.bool,
   setComponent: PropTypes.func,
+  toolTip: PropTypes.bool,
 };
 export default Drawers;

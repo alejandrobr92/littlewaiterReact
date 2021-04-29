@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   contentImage: {
     width: '100px',
     height: '70px',
-    margin: theme.spacing(3, 0, 1),
-    padding: theme.spacing(1, 2, 1),
+    margin: theme.spacing(3, 0, 0),
+    padding: theme.spacing(1, 2, 0),
   },
   contentLoader: {
     width: '250px',
@@ -71,27 +71,23 @@ function Page(props) {
     setLoading(true);
     try {
       await signIn(values.email, values.password);
-      setTimeout(() => {
-        setLoading(false);
-        history.push('/dashboard');
-      }, 2000);
+      setLoading(false);
+      history.push('/dashboard');
     } catch (error) {
       console.log('error login....', error);
       setLoading(false);
     }
   };
-  const Loader = () => {
-    return (
-      <div className={classes.container}>
-        <div className={classes.contentImage}>
-          <img src={'https://i.imgur.com/qundQaI.gif'} alt="logo" width="100px" heigth="20px" />
-        </div>
-        <div className={classes.contentLoader}>
-          <BarLoader width={250} heigth={5} color={'#FBA100'} loading={loading} />
-        </div>
+  const Loader = () => (
+    <div className={classes.container}>
+      <div className={classes.contentImage}>
+        <img src={'https://i.imgur.com/qundQaI.gif'} alt="logo" width="75px" heigth="15px" />
       </div>
-    );
-  };
+      <div className={classes.contentLoader}>
+        <BarLoader width={250} heigth={4} color={'#FBA100'} loading={loading} />
+      </div>
+    </div>
+  );
   if (currentUser !== null) {
     return <Redirect to="/dashboard" />;
   }

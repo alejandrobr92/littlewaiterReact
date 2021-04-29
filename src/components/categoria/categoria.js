@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  buttonEdit: {
+    marginRight: theme.spacing(1),
+  },
+  editPhone: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const headCells = [
@@ -47,25 +53,43 @@ export default function Categoria(props) {
     getAllCategories();
   }, []);
 
-  const getAllCategories = () => {
-    const data = getCategories();
-    setCategorias(data);
+  const getAllCategories = async () => {
+    try {
+      const data = await getCategories();
+      const response = data;
+      setCategorias(response);
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   const addOrEdit = (values, resetForm) => {
     setLoading(true);
     const response = addOrEditCategorie(values);
-    response.then(() => {
-      setCategoriasEdit(null);
-      setOpenPopup(false);
-      resetForm();
-      setNotify({
-        isOpen: true,
-        message: 'Todo salió correctamete!',
-        type: 'success',
+    response
+      .then(() => {
+        setOpenPopup(false);
+        resetForm();
+        setCategoriasEdit(null);
+        setNotify({
+          isOpen: true,
+          message: 'Todo salió correctamete!',
+          type: 'success',
+        });
+        setLoading(false);
+      })
+      .catch((err) => {
+        setCategoriasEdit(null);
+        setOpenPopup(false);
+        resetForm();
+        setNotify({
+          isOpen: true,
+          message: 'Todo salió correctamete!',
+          type: 'success',
+        });
+        setLoading(false);
+        console.log(err);
       });
-      setLoading(false);
-    });
     getAllCategories();
   };
 
@@ -74,21 +98,27 @@ export default function Categoria(props) {
     setOpenPopup(true);
   };
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     setLoading(true);
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
-    const response = removeCategorie(id);
-    response.then(() => {
-      setNotify({
-        isOpen: true,
-        message: 'Eliminado con éxito.',
-        type: 'error',
-      });
-      setLoading(false);
-    });
+    try {
+      const response = await removeCategorie(id);
+      if (response) {
+        setLoading(false);
+        getAllCategories();
+        setNotify({
+          isOpen: true,
+          message: 'Eliminado con éxito.',
+          type: 'error',
+        });
+      }
+    } catch (error) {
+      console.log('error', error);
+      getAllCategories();
+    }
     getAllCategories();
   };
 
@@ -97,9 +127,10 @@ export default function Categoria(props) {
       <Paper className={classes.pageContent}>
         <Title title="Categoría" />
         <ToolBar
+          nameContent={'categoria'}
           setOpenPopup={setOpenPopup}
+          setCategoriasEdit={() => setCategoriasEdit(null)}
           setViewButton={true}
-          addNewItem={() => setCategoriasEdit(null)}
         />
         <TbContainer>
           <TbHead />
@@ -110,9 +141,10 @@ export default function Categoria(props) {
                 <TableCell>{item.descripcion}</TableCell>
                 <TableCell>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     size="small"
+                    className={classes.buttonEdit}
                     onClick={() => {
                       openInPopup(item);
                     }}
@@ -120,7 +152,7 @@ export default function Categoria(props) {
                     <EditOutLineIcon fontSize="small" />
                   </Button>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="secondary"
                     size="small"
                     onClick={() => {

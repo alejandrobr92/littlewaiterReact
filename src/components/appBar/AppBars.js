@@ -6,10 +6,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../firebase/login';
 import { useHistory } from 'react-router-dom';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  LogoutTitle: {
+    fontSize: theme.spacing(2),
+    marginRight: theme.spacing(1),
+  },
 }));
 
 const AppBars = (props) => {
@@ -78,15 +84,21 @@ const AppBars = (props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+        <Typography variant="h6" color="inherit" noWrap className={classes.title}>
           Admin Little Waiter
         </Typography>
 
         <IconButton color="inherit" onClick={handleLogOut}>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.LogoutTitle}
+          >
             Log out
           </Typography>
-          <ExitToAppIcon />
+          <LockOpenIcon />
         </IconButton>
       </Toolbar>
     </AppBar>

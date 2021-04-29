@@ -8,46 +8,85 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+
 function SideBar(props) {
-  const { setComponent } = props;
+  const { toolTip, setComponent } = props;
 
   return (
     <div>
-      <ListItem button onClick={(e) => setComponent('Ordenes')}>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Órdenes" />
-      </ListItem>
-      <ListItem button onClick={(e) => setComponent('Menu')}>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Menu" />
-      </ListItem>
-      <ListItem button onClick={(e) => setComponent('Categorias')}>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Categorías" />
-      </ListItem>
-      <ListItem button onClick={(e) => setComponent('Promociones')}>
-        <ListItemIcon>
-          <LayersIcon />
-        </ListItemIcon>
-        <ListItemText primary="Promociones" />
-      </ListItem>
-      <ListItem button onClick={(e) => setComponent('Estadisticas')}>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Estadísticas" />
-      </ListItem>
+      <Tooltip
+        TransitionComponent={Zoom}
+        title={toolTip ? 'Órdenes' : ''}
+        placement="right"
+        TransitionProps={{ timeout: 2000 }}
+      >
+        <ListItem button onClick={(e) => setComponent('Ordenes')}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Órdenes" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip
+        TransitionComponent={Zoom}
+        title={toolTip ? 'Menú' : ''}
+        placement="right"
+        TransitionProps={{ timeout: 2000 }}
+      >
+        <ListItem button onClick={(e) => setComponent('Menu')}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Menú" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip
+        TransitionComponent={Zoom}
+        title={toolTip ? 'Categorías' : ''}
+        placement="right"
+        TransitionProps={{ timeout: 2000 }}
+      >
+        <ListItem button onClick={(e) => setComponent('Categorias')}>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Categorías" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip
+        TransitionComponent={Zoom}
+        title={toolTip ? 'Promociones' : ''}
+        placement="right"
+        TransitionProps={{ timeout: 2000 }}
+      >
+        <ListItem button onClick={(e) => setComponent('Promociones')}>
+          <ListItemIcon>
+            <LayersIcon />
+          </ListItemIcon>
+          <ListItemText primary="Promociones" />
+        </ListItem>
+      </Tooltip>
+      <Tooltip
+        TransitionComponent={Zoom}
+        title={toolTip ? 'Estadísticas' : ''}
+        placement="right"
+        TransitionProps={{ timeout: 2000 }}
+      >
+        <ListItem button onClick={(e) => setComponent('Estadisticas')}>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Estadísticas" />
+        </ListItem>
+      </Tooltip>
     </div>
   );
 }
 
 SideBar.propTypes = {
   setComponent: PropTypes.func,
+  toolTip: PropTypes.bool,
 };
 export default SideBar;
