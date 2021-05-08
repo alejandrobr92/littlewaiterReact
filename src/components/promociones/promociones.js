@@ -9,9 +9,9 @@ import EditOutLineIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import Notification from '../notification/Notification';
 import ConfirmDialog from '../confirmDialog/ConfirmDialog';
-import FormCategoria from './formCategoria';
+import FormPromociones from './formPromociones';
 import BarLoader from '../barLoader/BarLoader';
-import { getCategories, addOrEditCategorie, removeCategorie } from '../../firebase/categories';
+import { addOrEditPromotion, getPromotions, removePromotion } from '../../firebase/promotions';
 import ToolBar from '../toolBar/toolBar';
 import Title from '../title/Title';
 
@@ -56,7 +56,7 @@ export default function Categoria(props) {
 
   const getAllCategories = async () => {
     try {
-      const data = await getCategories();
+      const data = await getPromotions();
       const response = data;
       setCategorias(response);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function Categoria(props) {
 
   const addOrEdit = (values, resetForm) => {
     setLoading(true);
-    const response = addOrEditCategorie(values);
+    const response = addOrEditPromotion(values);
     response
       .then(() => {
         setOpenPopup(false);
@@ -106,7 +106,7 @@ export default function Categoria(props) {
       isOpen: false,
     });
     try {
-      const response = await removeCategorie(id);
+      const response = await removePromotion(id);
       if (response) {
         setLoading(false);
         getAllCategories();
@@ -126,7 +126,7 @@ export default function Categoria(props) {
   return (
     <React.Fragment>
       <Paper className={classes.pageContent}>
-        <Title title="Categoría" />
+        <Title title="Promociones" />
         <ToolBar
           nameContent={'categoria'}
           setOpenPopup={setOpenPopup}
@@ -176,11 +176,11 @@ export default function Categoria(props) {
         </TbContainer>
       </Paper>
       <Popup
-        title={categoriasEdit == null ? 'Agregar categoria' : 'Actualizar categoria'}
+        title={categoriasEdit == null ? 'Agregar promoción' : 'Actualizar promoción'}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <FormCategoria categoriasEdit={categoriasEdit} addOrEdit={addOrEdit} />
+        <FormPromociones categoriasEdit={categoriasEdit} addOrEdit={addOrEdit} />
       </Popup>
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />

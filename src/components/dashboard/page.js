@@ -11,30 +11,23 @@ import Copyright from '../copyRight/CopyRight';
 import AppBars from '../appBar/AppBars';
 import Drawers from '../drawers/Drawers';
 import { useState } from 'react';
+import Promociones from '../promociones/promociones';
 // import Graphics from '../estadisticas/Graphics';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBarSpacer: theme.mixins.toolbar,
+  // appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
+    margin: theme.spacing(3, 1),
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
+    paddingBottom: theme.spacing(2),
   },
 }));
 function Page(props) {
@@ -63,11 +56,13 @@ function Page(props) {
         return <Ordenes />;
       // case 'Estadisticas':
       // return <Graphics />;
+      case 'Promociones':
+        return <Promociones />;
       default:
         break;
     }
   };
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
   return (
     <div className={classes.root}>
       <CssBaseline />

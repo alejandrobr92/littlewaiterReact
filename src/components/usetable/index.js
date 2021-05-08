@@ -8,9 +8,12 @@ import {
   TablePagination,
   makeStyles,
 } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import TableContainer from '@material-ui/core/TableContainer';
 
 const useStyles = makeStyles((theme) => ({
   table: {
+    minWidth: 250,
     marginTop: theme.spacing(3),
     '& thead th': {
       fontWeight: '600',
@@ -49,7 +52,11 @@ export default function UseTable(records, headCells) {
     );
   };
   const TbContainer = (props) => {
-    return <Table className={classes.table}>{props.children}</Table>;
+    return (
+      <TableContainer component={Paper}>
+        <Table className={classes.table}>{props.children}</Table>
+      </TableContainer>
+    );
   };
   TbContainer.propTypes = {
     children: PropTypes.node,
